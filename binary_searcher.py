@@ -1,5 +1,20 @@
+alphabet = "0123456789-_aAáÁbBcCdDeEéÉfFgGhHiIíÍjJkKlLmMnNoOóÓöÖőŐpPqQrRsStTuUúÚüÜűŰvVwWxXyYzZ"
+
+
+def turn_to_number(word: str):
+    """
+    turns the letters of a word to numbers using the alphabet.
+    -> sort them later (sort itself also works like this with ascii)
+    """
+    turned_to_number = []
+    for char in word:
+        turned_to_number.append(alphabet.index(char))
+    return turned_to_number
+
+
 def search_number(array, value):
     """"
+    Warning: binary search only works with sorted (ascending) data.
     array: list of numbers
     value: value to search
     returns: index of the value, returns None if value is not in array
@@ -20,46 +35,24 @@ def search_number(array, value):
     return None
 
 
-
-
 def sort_hu(array):
     """
     array: list of strings to sort (hu alphabet)
     returns a sorted list
-
-    turns the alphabet to numbers, then sort them. (sort itself also works like this with ascii)
     """
-
-    alphabet = "0123456789-_aAáÁbBcCdDeEéÉfFgGhHiIíÍjJkKlLmMnNoOóÓöÖőŐpPqQrRsStTuUúÚüÜűŰvVwWxXyYzZ"
-    #short:
-    #new_list = sorted(array, key= lambda word: [alphabet.index(char) for char in word])
-    def turn_number(word):
-        turned_to_number = []
-        for char in word:
-            turned_to_number.append(alphabet.index(char))
-        return turned_to_number
-    
-    new_list = sorted(array, key=turn_number)
-    return new_list
+    hu_sorted_list = sorted(array, key=turn_to_number)
+    # short:
+    # hu_sorted_list = sorted(array, key=lambda word: [alphabet.index(char) for char in word])
+    return hu_sorted_list
 
 
 def binary_search_hu(array, value):
     """
-    array must be sorted (hu alphabet).
+    array must be sorted (hu alphabet). use sort_hu first.
     array: list of strings
     value: value to search
     returns the value index or None
     """
-    
-
-    def turn_to_number(word):
-        alphabet = "0123456789-_aAáÁbBcCdDeEéÉfFgGhHiIíÍjJkKlLmMnNoOóÓöÖőŐpPqQrRsStTuUúÚüÜűŰvVwWxXyYzZ"
-        turned_to_number = []
-        for char in word:
-            turned_to_number.append(alphabet.index(char))
-        return turned_to_number
-
-
     min = 0
     max = len(array)
     while min <= max:
@@ -75,13 +68,14 @@ def binary_search_hu(array, value):
     return None
 
 
-
 """
 #test
-my_list = [1,2,3,4,5,6, 7]
+my_list_number = [1,2,3,4,5,6, 7]
 my_list_str = ["alma", "kabát", "Répa", "Álmos", "banán"]
-print("search number:", search_number(my_list, 5))
-new_sorted = sort_hu(my_list_str)
-print("sorted alphabet:", new_sorted)
-print(binary_search_hu(new_sorted, "banán"))
+number_to_search = 5
+word_to_search = "banán"
+
+print(f"location of number {number_to_search}:", search_number(my_list_number, number_to_search))
+print("sorted alphabet:", sort_hu(my_list_str))
+print(f"location of {word_to_search}:", binary_search_hu(sort_hu(my_list_str), word_to_search))
 """
